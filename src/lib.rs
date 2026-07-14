@@ -1,7 +1,5 @@
-#![doc(html_logo_url = "https://codeberg.org/matous-volf/caseidae/raw/branch/main/assets/logo.png")]
-#![doc(
-    html_favicon_url = "https://codeberg.org/matous-volf/caseidae/raw/branch/main/assets/logo.png"
-)]
+#![doc(html_logo_url = "https://files.matousvolf.cz/public/caseidae/logo.png")]
+#![doc(html_favicon_url = "https://files.matousvolf.cz/public/caseidae/logo.png")]
 
 //! Convenient crate converting conventional casings of Rust identifiers, conveying correct context.
 //!

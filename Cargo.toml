@@ -1,6 +1,6 @@
 [package]
 name = "caseidae"
-version = "1.0.0"
+version = "1.0.1"
 description = "Convenient converters between letter casings of Rust identifiers."
 keywords = ["casing", "case", "naming", "ident", "identifier"]
 categories = [
