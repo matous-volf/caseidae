@@ -1,0 +1,22 @@
+---
+name: Rust check
+on: # yamllint disable-line rule:truthy
+  pull_request:
+    types: [opened, reopened, synchronize]
+permissions: {}
+jobs:
+  check:
+    name: Rust check
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Code checkout
+        uses: https://github.com/actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Check
+        uses: https://codeberg.org/matous-volf/action-rust-check@115dbd259911810a7afa03526f12ec71e2e9c68c # v4.0.0
+        with:
+          rust_version: 1.97.0
