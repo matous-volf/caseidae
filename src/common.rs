@@ -107,11 +107,13 @@ impl ConstructRawHandled for Ident {
     }
 }
 
+#[cfg(feature = "syn")]
 pub(crate) trait IsRaw {
     fn is_raw_identifier(&self) -> bool;
     fn is_raw_lifetime(&self) -> bool;
 }
 
+#[cfg(feature = "syn")]
 impl IsRaw for str {
     fn is_raw_identifier(&self) -> bool {
         self.starts_with(RAW_IDENTIFIER_PREFIX)
