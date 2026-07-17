@@ -2,8 +2,6 @@ use std::iter;
 
 use convert_case::{Boundary, Case, Casing};
 use convert_case_extras::is_case;
-use proc_macro2::Span;
-use syn::Ident;
 
 pub(crate) const RAW_IDENTIFIER_PREFIX: &str = "r#";
 pub(crate) const LIFETIME_TICK_PREFIX: char = '\'';
@@ -88,10 +86,17 @@ impl ConvertCasing for str {
     }
 }
 
+#[cfg(feature = "syn")]
+use proc_macro2::Span;
+#[cfg(feature = "syn")]
+use syn::Ident;
+
+#[cfg(feature = "syn")]
 pub(crate) trait ConstructRawHandled {
     fn new_raw_handled(string: &str, span: Span) -> Self;
 }
 
+#[cfg(feature = "syn")]
 impl ConstructRawHandled for Ident {
     fn new_raw_handled(string: &str, span: Span) -> Self {
         if string.is_raw_identifier() {
@@ -118,6 +123,7 @@ impl IsRaw for str {
     }
 }
 
+#[cfg(feature = "syn")]
 impl IsRaw for Ident {
     fn is_raw_identifier(&self) -> bool {
         self.to_string().is_raw_identifier()
@@ -129,6 +135,7 @@ impl IsRaw for Ident {
 }
 
 /// A check for the resolution of https://codeberg.org/matous-volf/caseidae/issues/2.
+#[cfg(feature = "syn")]
 #[test]
 #[should_panic]
 fn syn_raw_lifetime_check() {

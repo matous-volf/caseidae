@@ -1,6 +1,5 @@
-use crate::common::{ConstructRawHandled, ConvertCasing};
+use crate::common::ConvertCasing;
 use convert_case::Case;
-use syn::Ident;
 
 /// Types convertible to the letter casing corresponding to names of
 /// [macros](https://doc.rust-lang.org/reference/macros.html).
@@ -47,9 +46,11 @@ impl ToMacroName for str {
 }
 
 #[cfg(feature = "syn")]
-impl ToMacroName for Ident {
+impl ToMacroName for syn::Ident {
     type Output = <Self as ToOwned>::Owned;
     fn to_macro_name(&self) -> Self::Output {
+        use crate::common::ConstructRawHandled;
+
         Self::Output::new_raw_handled(self.to_string().to_macro_name().as_str(), self.span())
     }
 }

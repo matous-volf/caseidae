@@ -1,8 +1,5 @@
-use crate::common::ConstructRawHandled;
-use convert_case::Case;
-use syn::Ident;
-
 use crate::common::ConvertCasing;
+use convert_case::Case;
 
 /// Types convertible to the letter casing corresponding to names of
 /// [primitives](https://doc.rust-lang.org/rust-by-example/primitives.html).
@@ -49,9 +46,11 @@ impl ToPrimitiveName for str {
 }
 
 #[cfg(feature = "syn")]
-impl ToPrimitiveName for Ident {
+impl ToPrimitiveName for syn::Ident {
     type Output = <Self as ToOwned>::Owned;
     fn to_primitive_name(&self) -> Self::Output {
+        use crate::common::ConstructRawHandled;
+
         Self::Output::new_raw_handled(self.to_string().to_primitive_name().as_str(), self.span())
     }
 }

@@ -1,8 +1,5 @@
-use crate::common::ConstructRawHandled;
-use convert_case::Case;
-use syn::Ident;
-
 use crate::common::ConvertCasing;
+use convert_case::Case;
 
 /// Types convertible to the letter casing corresponding to names of
 /// [traits](https://doc.rust-lang.org/rust-by-example/trait.html).
@@ -49,9 +46,11 @@ impl ToTraitName for str {
 }
 
 #[cfg(feature = "syn")]
-impl ToTraitName for Ident {
+impl ToTraitName for syn::Ident {
     type Output = <Self as ToOwned>::Owned;
     fn to_trait_name(&self) -> Self::Output {
+        use crate::common::ConstructRawHandled;
+
         Self::Output::new_raw_handled(self.to_string().to_trait_name().as_str(), self.span())
     }
 }

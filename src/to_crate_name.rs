@@ -1,6 +1,5 @@
-use crate::common::{ConstructRawHandled, ConvertCasing};
+use crate::common::ConvertCasing;
 use convert_case::Case;
-use syn::Ident;
 
 /// Types convertible to the letter casing corresponding to names of
 /// [crates](https://doc.rust-lang.org/rust-by-example/crates.html).
@@ -47,9 +46,11 @@ impl ToCrateName for str {
 }
 
 #[cfg(feature = "syn")]
-impl ToCrateName for Ident {
+impl ToCrateName for syn::Ident {
     type Output = <Self as ToOwned>::Owned;
     fn to_crate_name(&self) -> Self::Output {
+        use crate::common::ConstructRawHandled;
+
         Self::Output::new_raw_handled(self.to_string().to_crate_name().as_str(), self.span())
     }
 }
