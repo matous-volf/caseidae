@@ -1,6 +1,5 @@
-use crate::common::{ConstructRawHandled, ConvertCasing};
+use crate::common::ConvertCasing;
 use convert_case::Case;
-use syn::Ident;
 
 /// Types convertible to the letter casing corresponding to names of
 /// [variables](https://doc.rust-lang.org/reference/variables.html).
@@ -47,9 +46,11 @@ impl ToVariableName for str {
 }
 
 #[cfg(feature = "syn")]
-impl ToVariableName for Ident {
+impl ToVariableName for syn::Ident {
     type Output = <Self as ToOwned>::Owned;
     fn to_variable_name(&self) -> Self::Output {
+        use crate::common::ConstructRawHandled;
+
         Self::Output::new_raw_handled(self.to_string().to_variable_name().as_str(), self.span())
     }
 }

@@ -1,6 +1,4 @@
-use crate::common::ConstructRawHandled;
 use convert_case::Case;
-use syn::Ident;
 
 use crate::common::ConvertCasing;
 
@@ -50,9 +48,11 @@ impl ToVariantName for str {
 }
 
 #[cfg(feature = "syn")]
-impl ToVariantName for Ident {
+impl ToVariantName for syn::Ident {
     type Output = <Self as ToOwned>::Owned;
     fn to_variant_name(&self) -> Self::Output {
+        use crate::common::ConstructRawHandled;
+
         Self::Output::new_raw_handled(self.to_string().to_variant_name().as_str(), self.span())
     }
 }

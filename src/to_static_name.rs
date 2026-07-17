@@ -1,6 +1,5 @@
-use crate::common::{ConstructRawHandled, ConvertCasing};
+use crate::common::ConvertCasing;
 use convert_case::Case;
-use syn::Ident;
 
 /// Types convertible to the letter casing corresponding to names of
 /// [static items](https://doc.rust-lang.org/reference/items/static-items.html).
@@ -48,9 +47,11 @@ impl ToStaticName for str {
 }
 
 #[cfg(feature = "syn")]
-impl ToStaticName for Ident {
+impl ToStaticName for syn::Ident {
     type Output = <Self as ToOwned>::Owned;
     fn to_static_name(&self) -> Self::Output {
+        use crate::common::ConstructRawHandled;
+
         Self::Output::new_raw_handled(self.to_string().to_static_name().as_str(), self.span())
     }
 }

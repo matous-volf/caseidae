@@ -1,6 +1,4 @@
-use crate::common::ConstructRawHandled;
 use convert_case::Case;
-use syn::Ident;
 
 use crate::common::ConvertCasing;
 
@@ -49,9 +47,11 @@ impl ToFunctionName for str {
 }
 
 #[cfg(feature = "syn")]
-impl ToFunctionName for Ident {
+impl ToFunctionName for syn::Ident {
     type Output = <Self as ToOwned>::Owned;
     fn to_function_name(&self) -> Self::Output {
+        use crate::common::ConstructRawHandled;
+
         Self::Output::new_raw_handled(self.to_string().to_function_name().as_str(), self.span())
     }
 }

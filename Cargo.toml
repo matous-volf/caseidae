@@ -1,6 +1,6 @@
 [package]
 name = "caseidae"
-version = "1.0.1"
+version = "1.0.2"
 description = "Convenient converters between letter casings of Rust identifiers."
 keywords = ["casing", "case", "naming", "ident", "identifier"]
 categories = [
@@ -29,6 +29,10 @@ syn = { version = "2.0.118", default-features = false, features = ["printing"] }
 [features]
 default = ["syn"]
 syn = ["dep:syn", "dep:proc-macro2"]
+
+[[example]]
+name = "macro"
+required-features = ["syn"]
 
 [lints.rust]
 unsafe_code = "forbid"

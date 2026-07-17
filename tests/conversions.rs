@@ -1,11 +1,12 @@
-use std::{convert::Infallible, fmt::Debug, str::FromStr};
-
 use caseidae::{
     ToAttributeName, ToConstantName, ToCrateName, ToFieldName, ToFunctionName, ToLifetimeName,
     ToMacroName, ToModuleName, ToPrimitiveName, ToStaticName, ToTraitName, ToTypeName,
     ToVariableName, ToVariantName,
 };
+#[cfg(feature = "syn")]
 use proc_macro2::Span;
+use std::fmt::Debug;
+#[cfg(feature = "syn")]
 use syn::Ident;
 
 #[derive(Clone)]
@@ -460,8 +461,13 @@ impl<const COUNT: usize> TestCases<COUNT> {
     }
 }
 
+#[cfg(feature = "syn")]
+use std::{convert::Infallible, str::FromStr};
+
+#[cfg(feature = "syn")]
 struct TestIdent(Ident);
 
+#[cfg(feature = "syn")]
 impl TestIdent {
     fn convert<Output>(input: &str, converter: impl Fn(&Ident) -> Output) -> Output {
         let Ok(input) = TestIdent::from_str(input);
@@ -469,6 +475,7 @@ impl TestIdent {
     }
 }
 
+#[cfg(feature = "syn")]
 impl FromStr for TestIdent {
     type Err = Infallible;
 
@@ -486,6 +493,7 @@ impl FromStr for TestIdent {
 fn to_attribute_name() {
     TEST_CASES.test(str::to_attribute_name, TestCasing::Snake);
     TEST_CASES_STR_ONLY.test(str::to_attribute_name, TestCasing::Snake);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_attribute_name),
         TestCasing::Snake,
@@ -496,6 +504,7 @@ fn to_attribute_name() {
 fn to_constant_name() {
     TEST_CASES.test(str::to_constant_name, TestCasing::ScreamingSnake);
     TEST_CASES_STR_ONLY.test(str::to_constant_name, TestCasing::ScreamingSnake);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_constant_name),
         TestCasing::ScreamingSnake,
@@ -506,6 +515,7 @@ fn to_constant_name() {
 fn to_crate_name() {
     TEST_CASES.test(str::to_crate_name, TestCasing::Snake);
     TEST_CASES_STR_ONLY.test(str::to_crate_name, TestCasing::Snake);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_crate_name),
         TestCasing::Snake,
@@ -516,6 +526,7 @@ fn to_crate_name() {
 fn to_field_name() {
     TEST_CASES.test(str::to_field_name, TestCasing::Snake);
     TEST_CASES_STR_ONLY.test(str::to_field_name, TestCasing::Snake);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_field_name),
         TestCasing::Snake,
@@ -526,6 +537,7 @@ fn to_field_name() {
 fn to_function_name() {
     TEST_CASES.test(str::to_function_name, TestCasing::Snake);
     TEST_CASES_STR_ONLY.test(str::to_function_name, TestCasing::Snake);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_function_name),
         TestCasing::Snake,
@@ -536,6 +548,7 @@ fn to_function_name() {
 fn to_lifetime_name() {
     TEST_CASES.test(str::to_lifetime_name, TestCasing::LifetimeName);
     TEST_CASES_STR_ONLY.test(str::to_lifetime_name, TestCasing::LifetimeName);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, |ident| Ident::to_lifetime_name(ident).to_string()),
         TestCasing::LifetimeName,
@@ -546,6 +559,7 @@ fn to_lifetime_name() {
 fn to_macro_name() {
     TEST_CASES.test(str::to_macro_name, TestCasing::Snake);
     TEST_CASES_STR_ONLY.test(str::to_macro_name, TestCasing::Snake);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_macro_name),
         TestCasing::Snake,
@@ -556,6 +570,7 @@ fn to_macro_name() {
 fn to_module_name() {
     TEST_CASES.test(str::to_module_name, TestCasing::Snake);
     TEST_CASES_STR_ONLY.test(str::to_module_name, TestCasing::Snake);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_module_name),
         TestCasing::Snake,
@@ -566,6 +581,7 @@ fn to_module_name() {
 fn to_variable_name() {
     TEST_CASES.test(str::to_variable_name, TestCasing::Snake);
     TEST_CASES_STR_ONLY.test(str::to_variable_name, TestCasing::Snake);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_variable_name),
         TestCasing::Snake,
@@ -576,6 +592,7 @@ fn to_variable_name() {
 fn to_primitive_name() {
     TEST_CASES.test(str::to_primitive_name, TestCasing::Flat);
     TEST_CASES_STR_ONLY.test(str::to_primitive_name, TestCasing::Flat);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_primitive_name),
         TestCasing::Flat,
@@ -586,6 +603,7 @@ fn to_primitive_name() {
 fn to_static_name() {
     TEST_CASES.test(str::to_static_name, TestCasing::ScreamingSnake);
     TEST_CASES_STR_ONLY.test(str::to_static_name, TestCasing::ScreamingSnake);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_static_name),
         TestCasing::ScreamingSnake,
@@ -596,6 +614,7 @@ fn to_static_name() {
 fn to_trait_name() {
     TEST_CASES.test(str::to_trait_name, TestCasing::Pascal);
     TEST_CASES_STR_ONLY.test(str::to_trait_name, TestCasing::Pascal);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_trait_name),
         TestCasing::Pascal,
@@ -606,6 +625,7 @@ fn to_trait_name() {
 fn to_type_name() {
     TEST_CASES.test(str::to_type_name, TestCasing::Pascal);
     TEST_CASES_STR_ONLY.test(str::to_type_name, TestCasing::Pascal);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_type_name),
         TestCasing::Pascal,
@@ -616,6 +636,7 @@ fn to_type_name() {
 fn to_variant_name() {
     TEST_CASES.test(str::to_variant_name, TestCasing::Pascal);
     TEST_CASES_STR_ONLY.test(str::to_variant_name, TestCasing::Pascal);
+    #[cfg(feature = "syn")]
     TEST_CASES.test(
         |input| TestIdent::convert(input, Ident::to_variant_name),
         TestCasing::Pascal,

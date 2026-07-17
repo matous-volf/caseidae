@@ -1,6 +1,5 @@
-use crate::common::{ConstructRawHandled, ConvertCasing};
+use crate::common::ConvertCasing;
 use convert_case::Case;
-use syn::Ident;
 
 /// Types convertible to the letter casing corresponding to names of fields.
 pub trait ToFieldName {
@@ -45,9 +44,11 @@ impl ToFieldName for str {
 }
 
 #[cfg(feature = "syn")]
-impl ToFieldName for Ident {
+impl ToFieldName for syn::Ident {
     type Output = <Self as ToOwned>::Owned;
     fn to_field_name(&self) -> Self::Output {
+        use crate::common::ConstructRawHandled;
+
         Self::Output::new_raw_handled(self.to_string().to_field_name().as_str(), self.span())
     }
 }
