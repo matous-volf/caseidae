@@ -110,18 +110,12 @@ impl ConstructRawHandled for Ident {
 #[cfg(feature = "syn")]
 pub(crate) trait IsRaw {
     fn is_raw_identifier(&self) -> bool;
-    fn is_raw_lifetime(&self) -> bool;
 }
 
 #[cfg(feature = "syn")]
 impl IsRaw for str {
     fn is_raw_identifier(&self) -> bool {
         self.starts_with(RAW_IDENTIFIER_PREFIX)
-    }
-
-    fn is_raw_lifetime(&self) -> bool {
-        self.strip_prefix(LIFETIME_TICK_PREFIX)
-            .is_some_and(|rest| rest.starts_with(RAW_IDENTIFIER_PREFIX))
     }
 }
 
@@ -130,16 +124,4 @@ impl IsRaw for Ident {
     fn is_raw_identifier(&self) -> bool {
         self.to_string().is_raw_identifier()
     }
-
-    fn is_raw_lifetime(&self) -> bool {
-        self.to_string().is_raw_lifetime()
-    }
-}
-
-/// A check for the resolution of https://codeberg.org/matous-volf/caseidae/issues/2.
-#[cfg(feature = "syn")]
-#[test]
-#[should_panic]
-fn syn_raw_lifetime_check() {
-    syn::Lifetime::new("'r#fn", Span::call_site());
 }
