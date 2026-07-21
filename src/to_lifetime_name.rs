@@ -40,11 +40,6 @@ pub trait ToLifetimeName {
     ///
     /// Whether this method panics depends on the implementator, see their documentation for that.
     /// However, implementations from this crate never panic.
-    ///
-    /// # Warning
-    ///
-    /// The implementation on [`syn::Ident`] currently comes with a small caveat, see the
-    /// [documentation there](trait.ToLifetimeName.html#warning-1).
     fn to_lifetime_name(&self) -> Self::Output;
 }
 
@@ -61,40 +56,7 @@ impl ToLifetimeName for syn::Ident {
     /// See the [trait method documentation](ToLifetimeName::to_lifetime_name).
     ///
     /// The resulting [`Lifetime`](syn::Lifetime) has the same span as self.
-    ///
-    /// # Warning
-    ///
-    /// May return a [`Lifetime`](syn::Lifetime) which has an [`Ident`](syn::Ident) that would not
-    /// actually be accepted as valid by [`Lifetime::new`](syn::Lifetime::new). This happens when
-    /// the input [`Ident`](syn::Ident) is
-    /// [raw](https://doc.rust-lang.org/rust-by-example/compatibility/raw_identifiers.html). Syn
-    /// currently doesn't support creating [raw
-    /// lifetimes](https://doc.rust-lang.org/edition-guide/rust-2021/raw-lifetimes.html) through
-    /// [`Lifetime::new`](syn::Lifetime::new), so the [`Lifetime`](syn::Lifetime) is constructed
-    /// with a stripped [`Ident`](syn::Ident) at first and
-    /// then the `r#` prefix is artificially prepended, so that the original rawness is preserved.
-    /// This warning will hopefully be removed in the future, when the feature gets implemented in
-    /// syn. See the [related issue](https://codeberg.org/matous-volf/caseidae/issues/2).
     fn to_lifetime_name(&self) -> Self::Output {
-        use crate::common::{ConstructRawHandled, IsRaw};
-
-        let lifetime_name = self.to_string().to_lifetime_name();
-        let is_raw = lifetime_name.is_raw_lifetime();
-        let lifetime_name_unrawed = if is_raw {
-            format!("{LIFETIME_TICK_PREFIX}{}", &lifetime_name[3..])
-        } else {
-            lifetime_name.clone()
-        };
-        let lifetime = syn::Lifetime::new(lifetime_name_unrawed.as_str(), self.span());
-
-        if is_raw {
-            // See the warning in the docs.
-            syn::Lifetime {
-                ident: Self::new_raw_handled(&lifetime_name[1..], self.span()),
-                ..lifetime
-            }
-        } else {
-            lifetime
-        }
+        syn::Lifetime::new(self.to_string().to_lifetime_name().as_str(), self.span())
     }
 }
