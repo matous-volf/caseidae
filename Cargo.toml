@@ -13,17 +13,18 @@ categories = [
 repository = "https://codeberg.org/matous-volf/caseidae"
 license = "AGPL-3.0-only"
 readme = "readme.md"
+rust-version = "1.85.0"
 edition = "2024"
 include = ["/src", "/examples", "/tests"]
 
 [dependencies]
 convert_case = { version = "0.11.0", default-features = false }
-convert_case_extras = "0.2.0"
-proc-macro2 = { version = "1.0.106", default-features = false, optional = true }
+convert_case_extras = { version = "0.2.0", default-features = false }
+proc-macro2 = { version = "1.0.91", default-features = false, optional = true }
 syn = { version = "3.0.0", default-features = false, optional = true }
 
 [dev-dependencies]
-quote = { version = "1.0.46", default-features = false }
+quote = { version = "1.0.35", default-features = false }
 syn = { version = "3.0.0", default-features = false, features = ["printing"] }
 
 [features]
