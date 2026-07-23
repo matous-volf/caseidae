@@ -17,6 +17,6 @@ jobs:
           fetch-depth: 0
 
       - name: Check
-        uses: https://codeberg.org/matous-volf/action-rust-check@8269a908a15f836b84679c73dfd349ddebfe9bb1 # v7.0.0
+        uses: https://codeberg.org/matous-volf/action-rust-check@1d2c70c85b02d424763ef8e381a0b5271112c5c6 # v8.0.0
         with:
           rust_version: 1.97.0
