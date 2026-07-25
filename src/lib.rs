@@ -93,7 +93,12 @@
 //! ```
 //!
 //! You can test this in
-//! [`examples/macro.rs`](https://codeberg.org/matous-volf/caseidae/src/branch/main/examples/macro.rs).
+//! [`examples/macro.rs`](https://codeberg.org/matous-volf/caseidae/src/branch/main/examples/macro.rs)
+//! by running
+//!
+//! ```sh
+//! cargo run --example macro
+//! ```
 //!
 //! # General rules for conversions
 //!
