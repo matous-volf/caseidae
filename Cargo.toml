@@ -1,6 +1,6 @@
 [package]
 name = "caseidae"
-version = "2.0.0"
+version = "3.0.0"
 description = "Convenient converters between letter casings of Rust identifiers."
 keywords = ["casing", "case", "naming", "ident", "identifier"]
 categories = [
@@ -11,7 +11,7 @@ categories = [
     "value-formatting",
 ]
 repository = "https://codeberg.org/matous-volf/caseidae"
-license = "AGPL-3.0-only"
+license = "MPL-2.0"
 readme = "readme.md"
 rust-version = "1.85.0"
 edition = "2024"
