@@ -99,3 +99,7 @@ fn trait_to_function(
 
 You can test this in
 [`examples/macro.rs`](https://codeberg.org/matous-volf/caseidae/src/branch/main/examples/macro.rs).
+
+## License
+
+Licensed under the Mozilla Public License (MPL), version 2.0.
